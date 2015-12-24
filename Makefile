@@ -387,7 +387,8 @@ KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -ftree-vectorize -ftree-loop-distribution -ftree-loop-if-convert \
 		   -fivopts -fipa-pta -fira-hoist-pressure \
  		   -march=armv8-a+crc -fbranch-target-load-optimize -fsingle-precision-constant \
- 	    	   -mtune=cortex-a57.cortex-a53 -ffast-math \
+ 	    	   -mtune=cortex-a57.cortex-a53 -mcpu=cortex-a57.cortex-a53 \
+		   -ffast-math \
 		   -fgcse-lm -fgcse-sm -fsched-spec-load -fforce-addr \
    		   -floop-nest-optimize \
 		   -g0 -fmodulo-sched -fmodulo-sched-allow-regmoves \

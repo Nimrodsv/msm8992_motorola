@@ -381,9 +381,17 @@ KBUILD_CPPFLAGS := -D__KERNEL__
 KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -fno-strict-aliasing -fno-common \
 		   -Werror-implicit-function-declaration \
-		   -Wno-format-security \
-		   -fno-delete-null-pointer-checks \
-		   -std=gnu89
+		   -std=gnu89 \
+		   -Wno-format-security -funswitch-loops -fpredictive-commoning -fgcse-after-reload \
+		   -fno-delete-null-pointer-checks  \
+		   -ftree-vectorize -ftree-loop-distribution -ftree-loop-if-convert \
+		   -fivopts -fipa-pta -fira-hoist-pressure \
+ 		   -march=armv8-a+crc -fbranch-target-load-optimize -fsingle-precision-constant \
+ 	    	   -mtune=cortex-a57.cortex-a53 -ffast-math \
+		   -fgcse-lm -fgcse-sm -fsched-spec-load -fforce-addr \
+   		   -floop-nest-optimize \
+		   -g0 -fmodulo-sched -fmodulo-sched-allow-regmoves \
+		   -fivopts -Wno-array-bounds
 
 KBUILD_AFLAGS_KERNEL :=
 KBUILD_CFLAGS_KERNEL :=
@@ -582,10 +590,13 @@ endif # $(dot-config)
 all: vmlinux
 
 ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
-KBUILD_CFLAGS	+= -Os $(call cc-disable-warning,maybe-uninitialized,)
+#KBUILD_CFLAGS	+= -Os $(call cc-disable-warning,maybe-uninitialized,)
 else
-KBUILD_CFLAGS	+= -O2
+#KBUILD_CFLAGS	+= -O2
 endif
+
+KBUILD_CFLAGS	+= -O3 $(call cc-disable-warning,maybe-uninitialized,)
+KBUILD_CFLAGS	+= $(call array-bounds,)
 
 include $(srctree)/arch/$(SRCARCH)/Makefile
 
